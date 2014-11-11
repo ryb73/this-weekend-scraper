@@ -1,29 +1,28 @@
 "use strict";
 
-var frequency = require("./lib/scraping/frequency"),
+var q = require("q"),
+    frequency = require("./lib/scraping/frequency"),
     echonest = require("./lib/matching/echonest"),
     stringMatcher = require("./lib/matching/string-matcher"),
+    happeningUtils = require("./lib/data/happening-utils"),
     log = require("./lib/logging/log");
 
-frequency(matchArtistNames);
-
-function matchArtistNames(eventData) {
-  eventData.forEach(function(eventRecord) {
-    echonest.findMatchingArtists(eventRecord.headliner, function(err, artists) {
-      if(err) {
-        log.error(err);
-        return;
-      }
-
-      var artistNames = artists.map(getArtistName);
-      var bestMatch = stringMatcher.findBestMatch(eventRecord.headliner, artistNames);
-      if(bestMatch >= 0) {
-        log.info({match:artists[bestMatch]});
-      }
+frequency()
+  .then(function(rawHappenings) {
+    var fcalls = rawHappenings.map(function(rawHappening) {
+      return q.fcall(happeningUtils.rawToDb, rawHappening);
     });
-  });
-}
 
-function getArtistName(artist) {
-  return artist.name;
-}
+    q.allSettled(fcalls)
+      .then(function(happenings) {
+        log.info({happenings:happenings})
+      })
+      .catch(function(err) {
+        log.error(err, "error getting happenings: %s", err.message);
+      })
+      .done();
+  })
+  .catch(function(err) {
+    log.error(err, "error getting happenings from frequency: %s", err.message);
+  })
+  .done();
