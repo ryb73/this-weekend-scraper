@@ -1,5 +1,6 @@
 "use strict";
 
 module.exports = {
-  db: "mongodb://localhost/this-weekend"
+  db: "mongodb://localhost/this-weekend",
+  artistsCollection: "artists"
 };
