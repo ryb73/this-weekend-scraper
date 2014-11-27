@@ -22,7 +22,7 @@ frequency()
     return q.allSettled(fcalls);
   })
   .then(function(happenings) {
-    log.info({happenings:happenings})
+    log.info({happenings:happenings});
   })
   .catch(function(err) {
     log.error(err, "error getting happenings from frequency: %s", err.message);
