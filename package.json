@@ -1,0 +1,30 @@
+{
+  "name": "this-weekend-backend",
+  "version": "1.0.0",
+  "description": "this-weekend-backend\r ====================",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryb73/this-weekend-backend.git"
+  },
+  "author": "Ryan Biwer",
+  "license": "GPLv2",
+  "bugs": {
+    "url": "https://github.com/ryb73/this-weekend-backend/issues"
+  },
+  "homepage": "https://github.com/ryb73/this-weekend-backend",
+  "dependencies": {
+    "bunyan": "^1.2.3",
+    "entities": "^1.1.1",
+    "feedparser": "^0.19.2",
+    "lodash": "^2.4.1",
+    "mongojs": "^0.17.0",
+    "q": "^1.1.2",
+    "rem": "^0.7.0-3",
+    "request": "^2.49.0",
+    "strftime": "^0.8.2"
+  }
+}
