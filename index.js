@@ -1,5 +1,7 @@
 "use strict";
 
+require("error-tojson");
+
 var q = require("q"),
     mongojs = require("mongojs"),
     frequency = require("./lib/scraping/frequency"),
@@ -12,17 +14,14 @@ var q = require("q"),
 
 var db = initializeDatabase();
 artistUtils.setCollection(db[config.artistsCollection]);
+happeningUtils.setCollection(db[config.happeningsCollection]);
 
 frequency()
   .then(function(rawHappenings) {
-    var fcalls = rawHappenings.map(function(rawHappening) {
-      return q.fcall(happeningUtils.rawToDb, rawHappening);
-    });
-
-    return q.allSettled(fcalls);
+    return q.allSettled(rawHappenings.map(happeningUtils.rawToDb));
   })
   .then(function(happenings) {
-    log.info({happenings:happenings});
+    log.debug({happenings:happenings});
   })
   .catch(function(err) {
     log.error(err, "error getting happenings from frequency: %s", err.message);
@@ -33,5 +32,8 @@ frequency()
   .done();
 
 function initializeDatabase() {
-  return mongojs(config.db, [config.artistsCollection]);
+  return mongojs(config.db, [
+    config.artistsCollection,
+    config.happeningsCollection
+  ]);
 }

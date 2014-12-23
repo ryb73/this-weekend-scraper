@@ -2,5 +2,6 @@
 
 module.exports = {
   db: "mongodb://localhost/this-weekend",
-  artistsCollection: "artists"
+  artistsCollection: "artists",
+  happeningsCollection: "happenings"
 };
