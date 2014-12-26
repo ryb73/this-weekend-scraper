@@ -1,0 +1,29 @@
+"use strict";
+
+var bunyan = require("bunyan"),
+    strftime = require("strftime");
+
+var DATE_FORMAT = "%Y-%m-%d-%H-%M-%S";
+
+module.exports = bunyan.createLogger({
+  name: "index",
+  streams: [
+    {
+      level: "trace",
+      stream: process.stdout
+    },
+    {
+<<<<<<< HEAD
+      level: "info",
+      path: "log/" + strftime(DATE_FORMAT) + ".log"
+=======
+      level: "debug",
+      path: "log/" + strftime("%F-%T") + ".log"
+>>>>>>> ededbc98024ca98ce81c189a3c9bf9e7270e96ce
+    },
+    {
+      level: "error",
+      path: "log/error/" + strftime(DATE_FORMAT) + ".log"
+    }
+  ]
+});
