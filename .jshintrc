@@ -1,0 +1,5 @@
+{
+  "globalstrict": true,
+  "predef": [ "console", "require", "module", "process", "__dirname", "__filename" ],
+  "esnext": true
+}
